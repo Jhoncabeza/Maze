@@ -1,4 +1,10 @@
 ﻿using Maze.Logic;
 
-var maze = new MyMaze(10, 15);
-Console.WriteLine(maze);    
+try
+{
+    var maze = new MyMaze(20, 15);
+    Console.WriteLine(maze);
+}
+catch (Exception ex) {
+    Console.WriteLine(ex);
+}
