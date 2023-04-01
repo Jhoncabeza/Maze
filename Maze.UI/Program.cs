@@ -1,11 +1,16 @@
 ﻿using Maze.Logic;
 
-try
+
+var maze = new MyMaze(30, 150);
+Console.WriteLine(maze);
+
+if (maze.Win)
 {
-    var maze = new MyMaze(30, 150);
-    Console.WriteLine(maze);
-    Console.WriteLine("Congratulations maze solved");
+    
+    Console.WriteLine("the maze has a solution");
 }
-catch (Exception ex) {
-    Console.WriteLine(ex.Message);
+else
+{
+    Console.WriteLine("the maze has no solution");
 }
+

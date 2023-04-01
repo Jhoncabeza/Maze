@@ -3,7 +3,7 @@
     public class MyMaze
     {
         private char[,] _maze;
-
+        private bool _win;
         public MyMaze(int n, int obstacles)
         {
             N = n;
@@ -14,6 +14,8 @@
 
         public int N { get; }
         public int Obstacles { get; }
+        public bool Win { get => _win; set => _win = value; }
+
 
         public override string ToString()
         {
@@ -32,7 +34,7 @@
         private void FillMaze()
         {
             FillBorders();
-            TravelMaze();
+            _win = TravelMaze();
 
         }
 
@@ -51,7 +53,7 @@
                 _maze[nFC, i] = floorCeiling;
             }
 
-            //vertical !
+            //vertical v
 
             for (int i = 1; i < nFC - 1; i++)
             {
@@ -108,54 +110,51 @@
             }
         }
 
-        private void TravelMaze()
+        private bool TravelMaze()
         {
-            try
+            int row = 1;
+            int column = 0;
+            char _rigth = char.Parse("►");
+            char _left = char.Parse("◄");
+            char _bottom = char.Parse("▼");
+            char wall = char.Parse("║");
+            char space = ' ';
+            bool flag = true;
+            int left = -1;
+            int rigth = 1;
+            int bottom = 1;
+
+            _maze[row, column] = _rigth;
+
+            while (flag && !(row == N - 2 && column == N - 1))
             {
-                int row = 1;
-                int column = 0;
-                char _rigth = char.Parse("►");
-                char _left = char.Parse("◄");
-                char _bottom = char.Parse("▼");
-                char wall = char.Parse("║");
-                char space = ' ';
-                bool flag = true;
-                int left = -1;
-                int rigth = 1;
-                int bottom = 1;
-
-                _maze[row, column] = _rigth;
-
-                while (flag && !(row == N - 2 && column == N - 1))
+                if (_maze[row, column + rigth] == space)
                 {
-                    if (_maze[row, column + rigth] == space)
-                    {
-                        column += rigth;
-                        _maze[row, column] = _rigth;
+                    column += rigth;
+                    _maze[row, column] = _rigth;
 
-                    }
-                    else if (_maze[row + bottom, column] == space)
-                    {
-                        row += bottom;
-                        _maze[row, column] = _bottom;
-                    }
-                    else if (_maze[row, column + left] != wall)
-                    {
-                        column += left;
-                        _maze[row, column] = _left;
-                    }
-                    else
-                    {
-                        _maze[row, column] = _rigth;
-                        flag = false;
-                    }
                 }
+                else if (_maze[row + bottom, column] == space)
+                {
+                    row += bottom;
+                    _maze[row, column] = _bottom;
+                }
+                else if (_maze[row, column + left] != wall)
+                {
+                    column += left;
+                    _maze[row, column] = _left;
+                }
+                else
+                {
+                    _maze[row, column] = _left;
+                    flag = false;
+                    return false;
+                }
+            }
 
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex + "The maze has no solution");
-            }
+            return true;
+
+
         }
     }
 }
