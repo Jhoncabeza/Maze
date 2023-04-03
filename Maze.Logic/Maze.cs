@@ -4,6 +4,8 @@
     {
         private char[,] _maze;
         private bool _win;
+        private string _mazeBorder;
+
         public MyMaze(int n, int obstacles)
         {
             N = n;
@@ -15,7 +17,7 @@
         public int N { get; }
         public int Obstacles { get; }
         public bool Win { get => _win; set => _win = value; }
-
+        public string MazeBorder { get => _mazeBorder; set => _mazeBorder = value; }
 
         public override string ToString()
         {
@@ -33,12 +35,12 @@
 
         private void FillMaze()
         {
-            FillBorders();
+            _mazeBorder = FillBorders();
             _win = TravelMaze();
 
         }
 
-        private void FillBorders()
+        private string FillBorders()
         {
             int nFC = N - 1;
             char wall = char.Parse("║");
@@ -108,6 +110,17 @@
                     obstaclesCount++;
                 }
             }
+
+            var output = string.Empty;
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < N; j++)
+                {
+                    output += $"{_maze[i, j]}";
+                }
+                output += "\n";
+            }
+            return output;
         }
 
         private bool TravelMaze()
